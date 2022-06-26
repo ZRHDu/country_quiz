@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Quiz</title>
+        <link href="./styleindex.css" rel="stylesheet">
+    </head>
+
+    <body>
+        <h1 id="title">Countries Quiz</h1>
+
+        <div>
+            <button id="start">Start</button> <br/>
+            <button class="select" id="s-world">World</button>
+            <button class="select" id="s-africa">Africa</button>
+            <button class="select" id="s-asia">Asia</button>
+            <button class="select" id="s-europe">Europe</button>
+            <button class="select" id="s-namerica">North America</button>
+            <button class="select" id="s-samerica">South America</button>
+            <button class="select" id="s-oceania">Oceania</button>
+        </div>
+
+        <p id="directions"> Choose a continent and then click start. You will be greeted by the information & flag of an independent country. 
+            Write down the name of the country which you think it is, and then click the 'next' button to answer. You will be greeted by more information, and 
+            continue. 
+        </p>
+
+        <section id="answer-area">
+            <textarea id="answer-text" placeholder="Answer"></textarea>
+            <button id="submit-answer">Next</button>
+        </section>
+
+        <section id="information">
+            <img href="" id="flag" alt="The Flag Will Appear Here">
+            <p id="capital-info">Capital(s): <span id="capital"></span></p>
+            <p id="language-info">Language(s): <span id="language"></span></p>
+            <p id="border-info">Borders: <span id="border"></span></p>
+        </section>
+
+        <div id="quiz-location">
+            <span id="current">123</span> /
+            <span id="total">123</span>
+        </div>
+    </body>
+</html>
