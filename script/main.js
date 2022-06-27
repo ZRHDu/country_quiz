@@ -3,6 +3,7 @@
 import { countryEqual } from './h-functions.js';
 
 const elements = {
+    title: document.getElementById('title'),
     answering: {
         answerText: document.getElementById('answer-text'),
         answerButton: document.getElementById('submit-answer')
@@ -26,6 +27,7 @@ const forQuiz = {
     type: 'all',
     countries: null,
     current: 0,
+    points: 0,
 }
 
 /* this will set the information section of the page to the current country */
@@ -73,6 +75,9 @@ async function startQuiz() {
     const which = forQuiz.type === 'all' ? 'all' : 'region/' + forQuiz.type;
     const url = 'https://restcountries.com/v3.1/' + which;
 
+    forQuiz.current = 0;
+    forQuiz.points = 0;
+
     try {
         const response = await fetch(url);
 
@@ -83,7 +88,9 @@ async function startQuiz() {
             forQuiz.countries = jsonResponseFiltered.sort(() => (Math.random() > .5) ? 1 : -1); 
 
             elements.qLocation.total.innerText = forQuiz.countries.length;
-            
+
+            elements.answering.answerButton.addEventListener('click', toNext);
+            elements.title.innerText = `Type '${forQuiz.type.toUpperCase()}' Quiz Started`
             setInfo();
         } else {
             throw new Error('Request failed!')
@@ -95,4 +102,25 @@ async function startQuiz() {
 
 elements.start.addEventListener('click', startQuiz);
 
+/* This sets the functionality for the submit answer (next) button */
 
+function toNext() {
+    if (countryEqual(forQuiz.countries[forQuiz.current], elements.answering.answerText.value)) {
+        forQuiz.points++;
+    }
+
+    forQuiz.current++;
+
+    const percent = Math.floor((forQuiz.points / forQuiz.current) * 100);
+
+    elements.answering.answerText.value = '';
+
+    if (forQuiz.current === forQuiz.countries.length) {
+        elements.answering.answerButton.removeEventListener('click', toNext);
+        elements.title.innerText = `Quiz Finished: ${percent}% correct!`;
+        elements.qLocation.current.innerText = forQuiz.current;
+    } else {
+        setInfo();
+        elements.title.innerText = `Type '${forQuiz.type.toUpperCase()}' Quiz Going: ${percent}% so far!`
+    }
+}

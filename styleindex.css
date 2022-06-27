@@ -79,6 +79,15 @@ body {
     font-weight: 500;
 }
 
+#submit-answer:hover {
+    background-color: rgb(42, 134, 6);
+    cursor: pointer;
+}
+
+#submit-answer:active {
+    background-color: rgb(25, 77, 4);
+}
+
 /* Information area */
 
 #information {
