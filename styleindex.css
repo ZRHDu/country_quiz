@@ -20,7 +20,7 @@ body {
     background-color: rgb(104, 190, 248);
     margin-bottom: 1rem;
     font-size: 1.5rem;
-    width: 5rem;
+    width: 6rem;
 }
 
 #start:hover {
@@ -42,12 +42,7 @@ body {
 }
 
 .select:hover {
-    background-color: rgb(0, 90, 255);
     cursor: pointer;
-}
-
-.select:active {
-    background-color: rgb(59, 87, 245)
 }
 
 /* How To */
@@ -65,6 +60,7 @@ body {
     display: flex;
     background-color: rgb(42, 134, 6);
     margin-bottom: 2.5rem;
+    margin-top: 2.5rem;
 }
 
 #answer-text {

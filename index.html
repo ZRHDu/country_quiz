@@ -11,13 +11,12 @@
 
         <div>
             <button id="start">Start</button> <br/>
-            <button class="select" id="s-world">World</button>
-            <button class="select" id="s-africa">Africa</button>
-            <button class="select" id="s-asia">Asia</button>
-            <button class="select" id="s-europe">Europe</button>
-            <button class="select" id="s-namerica">North America</button>
-            <button class="select" id="s-samerica">South America</button>
-            <button class="select" id="s-oceania">Oceania</button>
+            <button class="select" id="s-world" data-value="all">World</button>
+            <button class="select" id="s-africa" data-value="africa">Africa</button>
+            <button class="select" id="s-asia" data-value="asia">Asia</button>
+            <button class="select" id="s-europe" data-value="europe">Europe</button>
+            <button class="select" id="s-america" data-value="americas">Americas</button>
+            <button class="select" id="s-oceania" data-value="oceania">Oceania</button>
         </div>
 
         <p id="directions"> Choose a continent and then click start. You will be greeted by the information & flag of an independent country. 
@@ -38,8 +37,10 @@
         </section>
 
         <div id="quiz-location">
-            <span id="current">123</span> /
-            <span id="total">123</span>
+            <span id="current">0</span> /
+            <span id="total">0</span>
         </div>
+
+        <script type="module" src="./script/main.js"></script>
     </body>
 </html>
