@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-@media only screen and (max-height: 1200px) {
+@media only screen and (max-height: 700px) {
     html {
         font-size: 12px;
     }
