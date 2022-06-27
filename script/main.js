@@ -1,5 +1,7 @@
 "use strict";
 
+import { countryEqual } from './h-functions.js';
+
 const elements = {
     answering: {
         answerText: document.getElementById('answer-text'),
@@ -31,10 +33,12 @@ const forQuiz = {
 function setInfo() {
     const curCountry = forQuiz.countries[forQuiz.current];
     
-    elements.info.capital.innerText = curCountry.capital;
+    elements.info.capital.innerText = countryEqual(curCountry, curCountry.capital[0]) ? 'Is it\'s own capital' : curCountry.capital;
     elements.info.border.innerText = curCountry.borders;
     elements.info.language.innerText = Object.values(curCountry.languages);
-    elements.info.flag.href = curCountry.flags.png;
+    elements.info.flag.src = curCountry.flags.png;
+
+    elements.qLocation.current.innerText = forQuiz.current;
 }
 
 /* This is the setting up of the function for choosing the countries */
@@ -77,6 +81,8 @@ async function startQuiz() {
             const jsonResponseFiltered = jsonResponse.filter(country => country.independent);
 
             forQuiz.countries = jsonResponseFiltered.sort(() => (Math.random() > .5) ? 1 : -1); 
+
+            elements.qLocation.total.innerText = forQuiz.countries.length;
             
             setInfo();
         } else {
