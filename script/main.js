@@ -35,7 +35,7 @@ const forQuiz = {
 function setInfo() {
     const curCountry = forQuiz.countries[forQuiz.current];
     
-    elements.info.capital.innerText = countryEqual(curCountry, curCountry.capital[0]) ? 'Is it\'s own capital' : curCountry.capital;
+    elements.info.capital.innerText = isCountryEqual(curCountry, curCountry.capital[0]) ? 'Is it\'s own capital' : curCountry.capital;
     elements.info.border.innerText = curCountry.borders;
     elements.info.language.innerText = Object.values(curCountry.languages);
     elements.info.flag.src = curCountry.flags.png;
@@ -46,12 +46,10 @@ function setInfo() {
 /* This is the setting up of the function for choosing the countries */
 
 function choiceFunction(element) {
-    element.target.style.backgroundColor = 'rgb(59, 87, 245)';
     for (let button of elements.choices) {
-        if (button !== element.target) {
-            button.style.backgroundColor = 'rgb(0, 47, 255)';
-        };
+        button.style.backgroundColor = 'rgb(0, 47, 255)';
     }
+    element.target.style.backgroundColor = 'rgb(59, 87, 245)';
     forQuiz.type = element.target.dataset.value;
 }
 
@@ -81,20 +79,22 @@ async function startQuiz() {
     try {
         const response = await fetch(url);
 
-        if (response.ok) {
-            const jsonResponse = await response.json();
-            const jsonResponseFiltered = jsonResponse.filter(country => country.independent);
-
-            forQuiz.countries = jsonResponseFiltered.sort(() => (Math.random() > .5) ? 1 : -1); 
-
-            elements.qLocation.total.innerText = forQuiz.countries.length;
-
-            elements.answering.answerButton.addEventListener('click', toNext);
-            elements.title.innerText = `Type '${forQuiz.type.toUpperCase()}' Quiz Started`
-            setInfo();
-        } else {
+        if (!response.ok) {
             throw new Error('Request failed!')
         }
+      
+        const jsonResponse = await response.json();
+        const jsonResponseFiltered = jsonResponse.filter(country => country.independent);
+
+        forQuiz.countries = jsonResponseFiltered.sort(() => (Math.random() > .5) ? 1 : -1); 
+
+        elements.qLocation.total.innerText = forQuiz.countries.length;
+
+        elements.answering.answerButton.addEventListener('click', toNext);
+        document.body.addEventListener('keydown', enterToNext);
+        elements.title.innerText = `Type '${forQuiz.type.toUpperCase()}' Quiz Started`
+        setInfo();
+      
     } catch (e) {
         console.log(e);
     }
@@ -105,7 +105,7 @@ elements.start.addEventListener('click', startQuiz);
 /* This sets the functionality for the submit answer (next) button */
 
 function toNext() {
-    if (countryEqual(forQuiz.countries[forQuiz.current], elements.answering.answerText.value)) {
+    if (isCountryEqual(forQuiz.countries[forQuiz.current], elements.answering.answerText.value)) {
         forQuiz.points++;
     }
 
@@ -117,10 +117,18 @@ function toNext() {
 
     if (forQuiz.current === forQuiz.countries.length) {
         elements.answering.answerButton.removeEventListener('click', toNext);
+        document.body.removeEventListener('keydown', enterToNext);
         elements.title.innerText = `Quiz Finished: ${percent}% correct!`;
         elements.qLocation.current.innerText = forQuiz.current;
     } else {
         setInfo();
         elements.title.innerText = `Type '${forQuiz.type.toUpperCase()}' Quiz Going: ${percent}% so far!`
+    }
+}
+
+function enterToNext(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        toNext();
     }
 }
