@@ -1,6 +1,6 @@
 "use strict";
 
-import { countryEqual } from './h-functions.js';
+import { countryEqual as isCountryEqual } from './h-functions.js';
 
 const elements = {
     title: document.getElementById('title'),
